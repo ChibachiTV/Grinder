@@ -1,0 +1,7 @@
+## Interface: 11505
+## Version: 1.0.0
+## Title: Grinder
+## Notes: How many more mobs must I grind to level up?
+## Author: Chibachi
+
+Grinder.lua
