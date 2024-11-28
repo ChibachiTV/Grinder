@@ -2,7 +2,7 @@ local addonFrame = CreateFrame("Frame")
 addonFrame:RegisterEvent("PLAYER_XP_UPDATE")
 
 local alertText = UIParent:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-alertText:SetPoint("TOP", UIParent, "TOP", 0, -200)
+alertText:SetPoint("TOP", UIParent, "TOP", 0, -250)
 alertText:SetTextColor(1, 1, 1, 0)
 alertText:SetFont("Fonts\\FRIZQT__.TTF", 24, "OUTLINE")
 alertText:Hide()
@@ -45,6 +45,7 @@ end
 
 local previousXP = UnitXP("player")
 
+-- This is basic, but works as intended. 
 addonFrame:SetScript("OnEvent", function(self, event, ...)
     if event == "PLAYER_XP_UPDATE" then
         local currentXP = UnitXP("player")
