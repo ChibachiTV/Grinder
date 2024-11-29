@@ -3,5 +3,6 @@
 ## Title: Grinder
 ## Notes: How many more mobs must I grind to level up?
 ## Author: Chibachi
+## SavedVariables: SavedVariablesPerCharacter
 
 Grinder.lua

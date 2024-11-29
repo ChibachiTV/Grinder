@@ -1,4 +1,8 @@
+showInChat = showInChat or false
+local displayInChat
+
 local addonFrame = CreateFrame("Frame")
+addonFrame:RegisterEvent("ADDON_LOADED")
 addonFrame:RegisterEvent("PLAYER_XP_UPDATE")
 
 local alertText = UIParent:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
@@ -46,7 +50,11 @@ end
 local previousXP = UnitXP("player")
 
 -- This is basic, but works as intended. 
-addonFrame:SetScript("OnEvent", function(self, event, ...)
+addonFrame:SetScript("OnEvent", function(self, event, arg1)
+    if arg1 == "Grinder" then
+        displayInChat = showInChat
+    end
+
     if event == "PLAYER_XP_UPDATE" then
         local currentXP = UnitXP("player")
         local maxXP = UnitXPMax("player")
@@ -57,8 +65,24 @@ addonFrame:SetScript("OnEvent", function(self, event, ...)
         if xpGained > 0 then
             local remainingKills = floor(remainingXP / xpGained) + 1
             if remainingKills > 0 then
-                ShowAlert(remainingKills .. " more to level up!")
+                local remaningMessage = remainingKills .. " more to level up!"
+                ShowAlert(remaningMessage)
+                if displayInChat then
+                    print(remaningMessage)
+                end
             end
         end
     end
 end)
+
+-- Slash commands
+SLASH_GRINDER1 = "/grinder"
+SlashCmdList["GRINDER"] = function(msg)
+    if msg == "chat on" then
+        showInChat = true
+        print("Grinder will now print to the chat as well.")
+    elseif msg == "chat off" then
+        showInChat = false
+        print("Grinder will not print to the chat now.")
+    end
+end
