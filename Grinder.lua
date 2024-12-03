@@ -7,8 +7,36 @@ Commands:
 /grinder chat off   - (Default) Don't send the alert to the chat window
 --]]
 
--- Load the global variables
-displayInChat = displayInChat or false
+-- Settings menu
+Grinder_SavedVars = {}
+
+local category = Settings.RegisterVerticalLayoutCategory("Grinder")
+
+local function OnSettingChanged(setting, value)
+	-- This callback will be invoked whenever a setting is modified.
+	--print("Setting changed:", setting:GetVariable(), value)
+end
+
+local function InitilizeSettingsUI()
+    do 
+        -- RegisterAddOnSetting example. This will read/write the setting directly
+        -- to `Grinder_SavedVars.toggle`.
+    
+        local name = "Show in Chat"
+        local variable = "Grinder_Chat_Toggle"
+        local variableKey = "showInChatToggle"
+        local variableTbl = Grinder_SavedVars
+        local defaultValue = false
+    
+        local setting = Settings.RegisterAddOnSetting(category, variable, variableKey, variableTbl, type(defaultValue), name, defaultValue)
+        setting:SetValueChangedCallback(OnSettingChanged)
+    
+        local tooltip = "Show how many more XP gains needed in the chat?"
+        Settings.CreateCheckbox(category, setting, tooltip)
+    end
+    
+    Settings.RegisterAddOnCategory(category)
+end
 
 -- Local variables
 local previousXP = 0
@@ -66,6 +94,8 @@ addonFrame:SetScript("OnEvent", function(self, event, arg1, ...)
     if event == "ADDON_LOADED" then
         if arg1 == "Grinder" then
             previousXP = UnitXP("player") -- Maybe calling this here fixes the initial 1 mob to lvl issue
+
+            InitilizeSettingsUI()
         end
     
     elseif event == "PLAYER_XP_UPDATE" then
@@ -87,7 +117,7 @@ addonFrame:SetScript("OnEvent", function(self, event, arg1, ...)
             local message = remainingGains .. " more to level up!"
             ShowAlert(message)
 
-            if displayInChat then
+            if Grinder_SavedVars["showInChatToggle"] then
                 print(message)
             end
         end
@@ -95,16 +125,3 @@ addonFrame:SetScript("OnEvent", function(self, event, arg1, ...)
         previousXP = currentXP -- Update the stored XP
     end
 end)
-
--- Slash commands
-SLASH_GRINDER1 = "/grinder"
-SlashCmdList["GRINDER"] = function(msg)
-    msg = msg:lower()
-    if msg == "chat on" then
-        displayInChat = true
-        print("Grinder will now print to the chat as well.")
-    elseif msg == "chat off" then
-        displayInChat = false
-        print("Grinder will not print to the chat now.")
-    end
-end
