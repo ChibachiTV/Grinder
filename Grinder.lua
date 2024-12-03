@@ -24,7 +24,7 @@ local function InitilizeSettingsUI()
     
         local name = "Show in Chat"
         local variable = "Grinder_Chat_Toggle"
-        local variableKey = "showInChatToggle"
+        local variableKey = "showInChatToggle" -- this becomes the variable name: Grinder_SavedVars.showInChatToggle
         local variableTbl = Grinder_SavedVars
         local defaultValue = false
     
@@ -117,7 +117,7 @@ addonFrame:SetScript("OnEvent", function(self, event, arg1, ...)
             local message = remainingGains .. " more to level up!"
             ShowAlert(message)
 
-            if Grinder_SavedVars["showInChatToggle"] then
+            if Grinder_SavedVars.showInChatToggle then
                 print(message)
             end
         end
