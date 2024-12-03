@@ -1,10 +1,6 @@
 --[[ 
 Grinder v1.0.0
 - Shows how many more XP gains it will take to level you!
-
-Commands:
-/grinder chat on    - Send the alert to the chat window as well
-/grinder chat off   - (Default) Don't send the alert to the chat window
 --]]
 
 -- Settings menu
@@ -45,7 +41,6 @@ local totalXPGained = 0
 local addonFrame = CreateFrame("Frame")
 addonFrame:RegisterEvent("ADDON_LOADED")
 addonFrame:RegisterEvent("PLAYER_XP_UPDATE")
-addonFrame:RegisterEvent("TIME_PLAYED_MSG")
 
 local alertText = UIParent:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 alertText:SetPoint("TOP", UIParent, "TOP", 0, -250)
