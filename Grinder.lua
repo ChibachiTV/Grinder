@@ -1,6 +1,5 @@
 --[[ 
-Grinder v1.0.0
-- Shows how many more XP gains it will take to level you!
+Grinder v0.1
 --]]
 
 -- Settings menu
