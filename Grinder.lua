@@ -15,6 +15,20 @@ end
 
 local function InitilizeSettingsUI()
     do 
+        local name = "Show Alert"
+        local variable = "Grinder_Alert_Toggle"
+        local variableKey = "showAlertToggle" -- this becomes the variable name: Grinder_SavedVars.showInChatToggle
+        local variableTbl = Grinder_SavedVars
+        local defaultValue = true
+    
+        local setting = Settings.RegisterAddOnSetting(category, variable, variableKey, variableTbl, type(defaultValue), name, defaultValue)
+        setting:SetValueChangedCallback(OnSettingChanged)
+    
+        local tooltip = "Show the on-screen alert?"
+        Settings.CreateCheckbox(category, setting, tooltip)
+    end
+
+    do 
         -- RegisterAddOnSetting example. This will read/write the setting directly
         -- to `Grinder_SavedVars.toggle`.
     
@@ -110,7 +124,10 @@ addonFrame:SetScript("OnEvent", function(self, event, arg1, ...)
 
         if remainingGains > 0 then
             local message = remainingGains .. " more to level up!"
-            ShowAlert(message)
+
+            if Grinder_SavedVars.showAlertToggle then
+                ShowAlert(message)
+            end
 
             if Grinder_SavedVars.showInChatToggle then
                 print(message)
